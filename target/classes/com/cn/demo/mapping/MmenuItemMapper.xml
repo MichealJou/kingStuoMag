@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.demo.dao.MmenuItemMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.demo.pojo.MmenuItem" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="item_id" property="itemId" jdbcType="INTEGER" />
+    <result column="menu_id" property="menuId" jdbcType="INTEGER" />
+    <result column="item_text" property="itemText" jdbcType="VARCHAR" />
+    <result column="item_url" property="itemUrl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, item_id, menu_id, item_text, item_url
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from m_menu_item
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from m_menu_item
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cn.demo.pojo.MmenuItem" >
+    insert into m_menu_item (id, item_id, menu_id, 
+      item_text, item_url)
+    values (#{id,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER}, #{menuId,jdbcType=INTEGER}, 
+      #{itemText,jdbcType=VARCHAR}, #{itemUrl,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.demo.pojo.MmenuItem" >
+    insert into m_menu_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="itemId != null" >
+        item_id,
+      </if>
+      <if test="menuId != null" >
+        menu_id,
+      </if>
+      <if test="itemText != null" >
+        item_text,
+      </if>
+      <if test="itemUrl != null" >
+        item_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="itemId != null" >
+        #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="menuId != null" >
+        #{menuId,jdbcType=INTEGER},
+      </if>
+      <if test="itemText != null" >
+        #{itemText,jdbcType=VARCHAR},
+      </if>
+      <if test="itemUrl != null" >
+        #{itemUrl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.demo.pojo.MmenuItem" >
+    update m_menu_item
+    <set >
+      <if test="itemId != null" >
+        item_id = #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="menuId != null" >
+        menu_id = #{menuId,jdbcType=INTEGER},
+      </if>
+      <if test="itemText != null" >
+        item_text = #{itemText,jdbcType=VARCHAR},
+      </if>
+      <if test="itemUrl != null" >
+        item_url = #{itemUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.demo.pojo.MmenuItem" >
+    update m_menu_item
+    set item_id = #{itemId,jdbcType=INTEGER},
+      menu_id = #{menuId,jdbcType=INTEGER},
+      item_text = #{itemText,jdbcType=VARCHAR},
+      item_url = #{itemUrl,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+  
+   <select id="getList" resultMap="BaseResultMap"  parameterType="com.cn.demo.pojo.MmenuItem" >
+    select 
+    <include refid="Base_Column_List" />
+    from m_menu_item
+  </select>
+</mapper>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.demo.dao.TUserMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.demo.pojo.TUser" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="create_date_time" property="createDateTime" jdbcType="TIMESTAMP" />
+    <result column="is_del" property="isDel" jdbcType="INTEGER" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="update_date_time" property="updateDateTime" jdbcType="TIMESTAMP" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="com_id" property="comId" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="UserMap" type="com.cn.demo.dto.UserDTO" >
+    <id column="id" property="userId" jdbcType="INTEGER" />
+    <result column="create_date_time" property="createDateTime" jdbcType="TIMESTAMP" />
+    <result column="is_del" property="isDel" jdbcType="INTEGER" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="update_date_time" property="updateDateTime" jdbcType="TIMESTAMP" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="com_id" property="comId" jdbcType="VARCHAR" />
+    <result column="limit_id" property="limitId" jdbcType="INTEGER" />
+    <result column="menus" property="menus" jdbcType="VARCHAR" />
+    <result column="begindate" property="begindate" jdbcType="TIMESTAMP" />
+    <result column="enddate" property="enddate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, create_date_time, is_del, password, update_date_time, username, com_id
+  </sql>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_sys_admin
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="getUserByName" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_sys_admin
+    where 1=1
+    <if test="username != null and '' != username" >
+	    and	username = #{username} 	
+	</if>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_sys_admin
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cn.demo.pojo.TUser" >
+    insert into t_sys_admin (id, create_date_time, is_del, 
+      password, update_date_time, username, 
+      com_id)
+    values (#{id,jdbcType=INTEGER}, #{createDateTime,jdbcType=TIMESTAMP}, #{isDel,jdbcType=INTEGER}, 
+      #{password,jdbcType=VARCHAR}, #{updateDateTime,jdbcType=TIMESTAMP}, #{username,jdbcType=VARCHAR}, 
+      #{comId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.demo.pojo.TUser" >
+    insert into t_sys_admin
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createDateTime != null" >
+        create_date_time,
+      </if>
+      <if test="isDel != null" >
+        is_del,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="updateDateTime != null" >
+        update_date_time,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="comId != null" >
+        com_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="createDateTime != null" >
+        #{createDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDel != null" >
+        #{isDel,jdbcType=INTEGER},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDateTime != null" >
+        #{updateDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="comId != null" >
+        #{comId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.demo.pojo.TUser" >
+    update t_sys_admin
+    <set >
+      <if test="createDateTime != null" >
+        create_date_time = #{createDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDel != null" >
+        is_del = #{isDel,jdbcType=INTEGER},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDateTime != null" >
+        update_date_time = #{updateDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="comId != null" >
+        com_id = #{comId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.demo.pojo.TUser" >
+    update t_sys_admin
+    set create_date_time = #{createDateTime,jdbcType=TIMESTAMP},
+      is_del = #{isDel,jdbcType=INTEGER},
+      password = #{password,jdbcType=VARCHAR},
+      update_date_time = #{updateDateTime,jdbcType=TIMESTAMP},
+      username = #{username,jdbcType=VARCHAR},
+      com_id = #{comId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+  
+  
+  
+  <select id="getList" resultMap="UserMap">
+	  select u.com_id,u.create_date_time,u.id as userId,u.is_del,u.`password`,u.update_date_time,u.username 
+	,m.begindate,m.enddate,m.id as limitId,m.menus
+	from t_sys_admin u 
+	left join m_limit m on m.user_id = u.id
+  </select>
+</mapper>

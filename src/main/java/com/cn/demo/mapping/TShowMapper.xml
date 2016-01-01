@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.demo.dao.TShowMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.demo.pojo.TShow" >
+    <id column="show_id" property="showId" jdbcType="INTEGER" />
+    <result column="com_id" property="comId" jdbcType="INTEGER" />
+    <result column="show_del" property="showDel" jdbcType="INTEGER" />
+    <result column="show_pic_order" property="showPicOrder" jdbcType="INTEGER" />
+    <result column="show_pic_text" property="showPicText" jdbcType="VARCHAR" />
+    <result column="show_pic_url_path" property="showPicUrlPath" jdbcType="VARCHAR" />
+    <result column="t_show_pic_name" property="tShowPicName" jdbcType="VARCHAR" />
+    <result column="show_pic_path" property="showPicPath" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    show_id, com_id, show_del, show_pic_order, show_pic_text, show_pic_url_path, t_show_pic_name, 
+    show_pic_path
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_show
+    where show_id = #{showId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_show
+    where show_id = #{showId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cn.demo.pojo.TShow" >
+    insert into t_show (show_id, com_id, show_del, 
+      show_pic_order, show_pic_text, show_pic_url_path, 
+      t_show_pic_name, show_pic_path)
+    values (#{showId,jdbcType=INTEGER}, #{comId,jdbcType=INTEGER}, #{showDel,jdbcType=INTEGER}, 
+      #{showPicOrder,jdbcType=INTEGER}, #{showPicText,jdbcType=VARCHAR}, #{showPicUrlPath,jdbcType=VARCHAR}, 
+      #{tShowPicName,jdbcType=VARCHAR}, #{showPicPath,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.demo.pojo.TShow" >
+    insert into t_show
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="showId != null" >
+        show_id,
+      </if>
+      <if test="comId != null" >
+        com_id,
+      </if>
+      <if test="showDel != null" >
+        show_del,
+      </if>
+      <if test="showPicOrder != null" >
+        show_pic_order,
+      </if>
+      <if test="showPicText != null" >
+        show_pic_text,
+      </if>
+      <if test="showPicUrlPath != null" >
+        show_pic_url_path,
+      </if>
+      <if test="tShowPicName != null" >
+        t_show_pic_name,
+      </if>
+      <if test="showPicPath != null" >
+        show_pic_path,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="showId != null" >
+        #{showId,jdbcType=INTEGER},
+      </if>
+      <if test="comId != null" >
+        #{comId,jdbcType=INTEGER},
+      </if>
+      <if test="showDel != null" >
+        #{showDel,jdbcType=INTEGER},
+      </if>
+      <if test="showPicOrder != null" >
+        #{showPicOrder,jdbcType=INTEGER},
+      </if>
+      <if test="showPicText != null" >
+        #{showPicText,jdbcType=VARCHAR},
+      </if>
+      <if test="showPicUrlPath != null" >
+        #{showPicUrlPath,jdbcType=VARCHAR},
+      </if>
+      <if test="tShowPicName != null" >
+        #{tShowPicName,jdbcType=VARCHAR},
+      </if>
+      <if test="showPicPath != null" >
+        #{showPicPath,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.demo.pojo.TShow" >
+    update t_show
+    <set >
+      <if test="comId != null" >
+        com_id = #{comId,jdbcType=INTEGER},
+      </if>
+      <if test="showDel != null" >
+        show_del = #{showDel,jdbcType=INTEGER},
+      </if>
+      <if test="showPicOrder != null" >
+        show_pic_order = #{showPicOrder,jdbcType=INTEGER},
+      </if>
+      <if test="showPicText != null" >
+        show_pic_text = #{showPicText,jdbcType=VARCHAR},
+      </if>
+      <if test="showPicUrlPath != null" >
+        show_pic_url_path = #{showPicUrlPath,jdbcType=VARCHAR},
+      </if>
+      <if test="tShowPicName != null" >
+        t_show_pic_name = #{tShowPicName,jdbcType=VARCHAR},
+      </if>
+      <if test="showPicPath != null" >
+        show_pic_path = #{showPicPath,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where show_id = #{showId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.demo.pojo.TShow" >
+    update t_show
+    set com_id = #{comId,jdbcType=INTEGER},
+      show_del = #{showDel,jdbcType=INTEGER},
+      show_pic_order = #{showPicOrder,jdbcType=INTEGER},
+      show_pic_text = #{showPicText,jdbcType=VARCHAR},
+      show_pic_url_path = #{showPicUrlPath,jdbcType=VARCHAR},
+      t_show_pic_name = #{tShowPicName,jdbcType=VARCHAR},
+      show_pic_path = #{showPicPath,jdbcType=VARCHAR}
+    where show_id = #{showId,jdbcType=INTEGER}
+  </update>
+  
+    <select id="getList" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_show
+    where com_id = #{comId,jdbcType=INTEGER}
+  </select>
+  
+  
+    <select id="getShow" resultMap="BaseResultMap" parameterType="com.cn.demo.pojo.TShow" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_show
+    where  show_pic_order = #{showPicOrder,jdbcType=INTEGER}
+    and  show_del = #{showDel,jdbcType=INTEGER}
+    and com_id = #{comId,jdbcType=INTEGER}
+  </select>
+  
+</mapper>

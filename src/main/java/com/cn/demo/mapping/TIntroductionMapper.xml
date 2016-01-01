@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.demo.dao.TIntroductionMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.demo.pojo.TIntroduction" >
+    <id column="intr_id" property="intrId" jdbcType="INTEGER" />
+    <result column="com_id" property="comId" jdbcType="VARCHAR" />
+    <result column="intr_idea" property="intrIdea" jdbcType="VARCHAR" />
+    <result column="intr_content" property="intrContent" jdbcType="VARCHAR" />
+    <result column="intr_purpose" property="intrPurpose" jdbcType="VARCHAR" />
+    <result column="intr_slogan" property="intrSlogan" jdbcType="VARCHAR" />
+    <result column="instr_terget" property="instrTerget" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    intr_id, com_id, intr_idea, intr_content, intr_purpose, intr_slogan, instr_terget
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_introduction
+    where intr_id = #{intrId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByComID" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_introduction
+    where com_id = #{comId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_introduction
+    where intr_id = #{intrId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cn.demo.pojo.TIntroduction" >
+    insert into t_introduction (intr_id, com_id, intr_idea, 
+      intr_content, intr_purpose, intr_slogan, 
+      instr_terget)
+    values (#{intrId,jdbcType=INTEGER}, #{comId,jdbcType=VARCHAR}, #{intrIdea,jdbcType=VARCHAR}, 
+      #{intrContent,jdbcType=VARCHAR}, #{intrPurpose,jdbcType=VARCHAR}, #{intrSlogan,jdbcType=VARCHAR}, 
+      #{instrTerget,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.demo.pojo.TIntroduction" >
+    insert into t_introduction
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="intrId != null" >
+        intr_id,
+      </if>
+      <if test="comId != null" >
+        com_id,
+      </if>
+      <if test="intrIdea != null" >
+        intr_idea,
+      </if>
+      <if test="intrContent != null" >
+        intr_content,
+      </if>
+      <if test="intrPurpose != null" >
+        intr_purpose,
+      </if>
+      <if test="intrSlogan != null" >
+        intr_slogan,
+      </if>
+      <if test="instrTerget != null" >
+        instr_terget,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="intrId != null" >
+        #{intrId,jdbcType=INTEGER},
+      </if>
+      <if test="comId != null" >
+        #{comId,jdbcType=VARCHAR},
+      </if>
+      <if test="intrIdea != null" >
+        #{intrIdea,jdbcType=VARCHAR},
+      </if>
+      <if test="intrContent != null" >
+        #{intrContent,jdbcType=VARCHAR},
+      </if>
+      <if test="intrPurpose != null" >
+        #{intrPurpose,jdbcType=VARCHAR},
+      </if>
+      <if test="intrSlogan != null" >
+        #{intrSlogan,jdbcType=VARCHAR},
+      </if>
+      <if test="instrTerget != null" >
+        #{instrTerget,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.demo.pojo.TIntroduction" >
+    update t_introduction
+    <set >
+      <if test="comId != null" >
+        com_id = #{comId,jdbcType=VARCHAR},
+      </if>
+      <if test="intrIdea != null" >
+        intr_idea = #{intrIdea,jdbcType=VARCHAR},
+      </if>
+      <if test="intrContent != null" >
+        intr_content = #{intrContent,jdbcType=VARCHAR},
+      </if>
+      <if test="intrPurpose != null" >
+        intr_purpose = #{intrPurpose,jdbcType=VARCHAR},
+      </if>
+      <if test="intrSlogan != null" >
+        intr_slogan = #{intrSlogan,jdbcType=VARCHAR},
+      </if>
+      <if test="instrTerget != null" >
+        instr_terget = #{instrTerget,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where intr_id = #{intrId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.demo.pojo.TIntroduction" >
+    update t_introduction
+    set com_id = #{comId,jdbcType=VARCHAR},
+      intr_idea = #{intrIdea,jdbcType=VARCHAR},
+      intr_content = #{intrContent,jdbcType=VARCHAR},
+      intr_purpose = #{intrPurpose,jdbcType=VARCHAR},
+      intr_slogan = #{intrSlogan,jdbcType=VARCHAR},
+      instr_terget = #{instrTerget,jdbcType=VARCHAR}
+    where intr_id = #{intrId,jdbcType=INTEGER}
+  </update>
+</mapper>

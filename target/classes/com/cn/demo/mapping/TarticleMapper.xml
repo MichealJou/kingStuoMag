@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.demo.dao.TarticleMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.demo.pojo.Tarticle" >
+    <id column="art_id" property="artId" jdbcType="INTEGER" />
+    <result column="art_create_time" property="artCreateTime" jdbcType="TIMESTAMP" />
+    <result column="art_status" property="artStatus" jdbcType="INTEGER" />
+    <result column="art_title" property="artTitle" jdbcType="VARCHAR" />
+    <result column="art_type" property="artType" jdbcType="INTEGER" />
+    <result column="com_id" property="comId" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.cn.demo.pojo.Tarticle" extends="BaseResultMap" >
+    <result column="art_content" property="artContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    art_id, art_create_time, art_status, art_title, art_type, com_id
+  </sql>
+  <sql id="Blob_Column_List" >
+    art_content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_article
+    where art_id = #{artId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_article
+    where art_id = #{artId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cn.demo.pojo.Tarticle" >
+    insert into t_article (art_id, art_create_time, art_status, 
+      art_title, art_type, com_id, 
+      art_content)
+    values (#{artId,jdbcType=INTEGER}, #{artCreateTime,jdbcType=TIMESTAMP}, #{artStatus,jdbcType=INTEGER}, 
+      #{artTitle,jdbcType=VARCHAR}, #{artType,jdbcType=INTEGER}, #{comId,jdbcType=INTEGER}, 
+      #{artContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.demo.pojo.Tarticle" >
+    insert into t_article
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="artId != null" >
+        art_id,
+      </if>
+      <if test="artCreateTime != null" >
+        art_create_time,
+      </if>
+      <if test="artStatus != null" >
+        art_status,
+      </if>
+      <if test="artTitle != null" >
+        art_title,
+      </if>
+      <if test="artType != null" >
+        art_type,
+      </if>
+      <if test="comId != null" >
+        com_id,
+      </if>
+      <if test="artContent != null" >
+        art_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="artId != null" >
+        #{artId,jdbcType=INTEGER},
+      </if>
+      <if test="artCreateTime != null" >
+        #{artCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="artStatus != null" >
+        #{artStatus,jdbcType=INTEGER},
+      </if>
+      <if test="artTitle != null" >
+        #{artTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="artType != null" >
+        #{artType,jdbcType=INTEGER},
+      </if>
+      <if test="comId != null" >
+        #{comId,jdbcType=INTEGER},
+      </if>
+      <if test="artContent != null" >
+        #{artContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.demo.pojo.Tarticle" >
+    update t_article
+    <set >
+      <if test="artCreateTime != null" >
+        art_create_time = #{artCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="artStatus != null" >
+        art_status = #{artStatus,jdbcType=INTEGER},
+      </if>
+      <if test="artTitle != null" >
+        art_title = #{artTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="artType != null" >
+        art_type = #{artType,jdbcType=INTEGER},
+      </if>
+      <if test="comId != null" >
+        com_id = #{comId,jdbcType=INTEGER},
+      </if>
+      <if test="artContent != null" >
+        art_content = #{artContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where art_id = #{artId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.cn.demo.pojo.Tarticle" >
+    update t_article
+    set art_create_time = #{artCreateTime,jdbcType=TIMESTAMP},
+      art_status = #{artStatus,jdbcType=INTEGER},
+      art_title = #{artTitle,jdbcType=VARCHAR},
+      art_type = #{artType,jdbcType=INTEGER},
+      com_id = #{comId,jdbcType=INTEGER},
+      art_content = #{artContent,jdbcType=LONGVARCHAR}
+    where art_id = #{artId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.demo.pojo.Tarticle" >
+    update t_article
+    set art_create_time = #{artCreateTime,jdbcType=TIMESTAMP},
+      art_status = #{artStatus,jdbcType=INTEGER},
+      art_title = #{artTitle,jdbcType=VARCHAR},
+      art_type = #{artType,jdbcType=INTEGER},
+      com_id = #{comId,jdbcType=INTEGER}
+    where art_id = #{artId,jdbcType=INTEGER}
+  </update>
+  
+  <select id="getListByType" resultMap="ResultMapWithBLOBs"  parameterType="com.cn.demo.pojo.Tarticle" >
+   	select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_article
+    where com_id = #{comId,jdbcType=VARCHAR}
+    and art_type = #{artType,jdbcType=INTEGER}
+    order by art_id desc
+  </select>
+  
+</mapper>

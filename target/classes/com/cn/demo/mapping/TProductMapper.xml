@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.demo.dao.TProductMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.demo.pojo.TProduct" >
+    <id column="pro_id" property="proId" jdbcType="INTEGER" />
+    <result column="com_id" property="comId" jdbcType="INTEGER" />
+    <result column="pro_name" property="proName" jdbcType="VARCHAR" />
+    <result column="pro_pic_name" property="proPicName" jdbcType="VARCHAR" />
+    <result column="pro_pic_path" property="proPicPath" jdbcType="VARCHAR" />
+    <result column="pro_pic_url_path" property="proPicUrlPath" jdbcType="VARCHAR" />
+    <result column="product_group_id" property="productGroupId" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.cn.demo.pojo.TProduct" extends="BaseResultMap" >
+    <result column="pro_desc" property="proDesc" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  
+  <resultMap id="productMap" type="com.cn.demo.dto.ProductDTO" >
+    <id column="pro_id" property="proId" jdbcType="INTEGER" />
+    <result column="com_id" property="comId" jdbcType="INTEGER" />
+    <result column="pro_name" property="proName" jdbcType="VARCHAR" />
+    <result column="pro_pic_name" property="proPicName" jdbcType="VARCHAR" />
+    <result column="pro_pic_path" property="proPicPath" jdbcType="VARCHAR" />
+    <result column="pro_pic_url_path" property="proPicUrlPath" jdbcType="VARCHAR" />
+    <result column="product_group_id" property="productGroupId" jdbcType="INTEGER" />
+    <result column="pro_category_name" property="pName" jdbcType="VARCHAR"/>
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs_1" type="com.cn.demo.dto.ProductDTO" extends="productMap" >
+    <result column="pro_desc" property="proDesc" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    pro_id, com_id, pro_name, pro_pic_name, pro_pic_path, pro_pic_url_path, product_group_id
+  </sql>
+  <sql id="Blob_Column_List" >
+    pro_desc
+  </sql>
+  <sql id="Base_Column_List_1" >
+    t.pro_id, t.com_id, t.pro_name, t.pro_pic_name,t.pro_pic_path, t.pro_pic_url_path, t.product_group_id
+  </sql>
+  <sql id="Blob_Column_List_1" >
+    t.pro_desc
+  </sql>
+  
+  
+    <select id="getList" resultMap="ResultMapWithBLOBs_1" parameterType="com.cn.demo.dto.ProductDTO" >
+    select 
+    <include refid="Base_Column_List_1" />
+    ,
+    <include refid="Blob_Column_List_1" />
+    , p.pro_category_name
+    from t_product t
+    left join t_pro_category p on p.pro_category_id = t.product_group_id
+    
+    where t.com_id = #{comId,jdbcType=INTEGER}
+  </select>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_product
+    where pro_id = #{proId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByGroupId" resultMap="ResultMapWithBLOBs" parameterType="com.cn.demo.pojo.TProduct" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_product
+    where 
+    com_id = ${comId}
+   	and  product_group_id = ${productGroupId}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_product
+    where pro_id = #{proId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cn.demo.pojo.TProduct" >
+    insert into t_product (pro_id, com_id, pro_name, 
+      pro_pic_name, pro_pic_path, pro_pic_url_path, 
+      product_group_id, pro_desc)
+    values (#{proId,jdbcType=INTEGER}, #{comId,jdbcType=INTEGER}, #{proName,jdbcType=VARCHAR}, 
+      #{proPicName,jdbcType=VARCHAR}, #{proPicPath,jdbcType=VARCHAR}, #{proPicUrlPath,jdbcType=VARCHAR}, 
+      #{productGroupId,jdbcType=INTEGER}, #{proDesc,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.demo.pojo.TProduct" >
+    insert into t_product
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="proId != null" >
+        pro_id,
+      </if>
+      <if test="comId != null" >
+        com_id,
+      </if>
+      <if test="proName != null" >
+        pro_name,
+      </if>
+      <if test="proPicName != null" >
+        pro_pic_name,
+      </if>
+      <if test="proPicPath != null" >
+        pro_pic_path,
+      </if>
+      <if test="proPicUrlPath != null" >
+        pro_pic_url_path,
+      </if>
+      <if test="productGroupId != null" >
+        product_group_id,
+      </if>
+      <if test="proDesc != null" >
+        pro_desc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="proId != null" >
+        #{proId,jdbcType=INTEGER},
+      </if>
+      <if test="comId != null" >
+        #{comId,jdbcType=INTEGER},
+      </if>
+      <if test="proName != null" >
+        #{proName,jdbcType=VARCHAR},
+      </if>
+      <if test="proPicName != null" >
+        #{proPicName,jdbcType=VARCHAR},
+      </if>
+      <if test="proPicPath != null" >
+        #{proPicPath,jdbcType=VARCHAR},
+      </if>
+      <if test="proPicUrlPath != null" >
+        #{proPicUrlPath,jdbcType=VARCHAR},
+      </if>
+      <if test="productGroupId != null" >
+        #{productGroupId,jdbcType=INTEGER},
+      </if>
+      <if test="proDesc != null" >
+        #{proDesc,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.demo.pojo.TProduct" >
+    update t_product
+    <set >
+      <if test="comId != null" >
+        com_id = #{comId,jdbcType=INTEGER},
+      </if>
+      <if test="proName != null" >
+        pro_name = #{proName,jdbcType=VARCHAR},
+      </if>
+      <if test="proPicName != null" >
+        pro_pic_name = #{proPicName,jdbcType=VARCHAR},
+      </if>
+      <if test="proPicPath != null" >
+        pro_pic_path = #{proPicPath,jdbcType=VARCHAR},
+      </if>
+      <if test="proPicUrlPath != null" >
+        pro_pic_url_path = #{proPicUrlPath,jdbcType=VARCHAR},
+      </if>
+      <if test="productGroupId != null" >
+        product_group_id = #{productGroupId,jdbcType=INTEGER},
+      </if>
+      <if test="proDesc != null" >
+        pro_desc = #{proDesc,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where pro_id = #{proId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.cn.demo.pojo.TProduct" >
+    update t_product
+    set com_id = #{comId,jdbcType=INTEGER},
+      pro_name = #{proName,jdbcType=VARCHAR},
+      pro_pic_name = #{proPicName,jdbcType=VARCHAR},
+      pro_pic_path = #{proPicPath,jdbcType=VARCHAR},
+      pro_pic_url_path = #{proPicUrlPath,jdbcType=VARCHAR},
+      product_group_id = #{productGroupId,jdbcType=INTEGER},
+      pro_desc = #{proDesc,jdbcType=LONGVARCHAR}
+    where pro_id = #{proId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.demo.pojo.TProduct" >
+    update t_product
+    set com_id = #{comId,jdbcType=INTEGER},
+      pro_name = #{proName,jdbcType=VARCHAR},
+      pro_pic_name = #{proPicName,jdbcType=VARCHAR},
+      pro_pic_path = #{proPicPath,jdbcType=VARCHAR},
+      pro_pic_url_path = #{proPicUrlPath,jdbcType=VARCHAR},
+      product_group_id = #{productGroupId,jdbcType=INTEGER}
+    where pro_id = #{proId,jdbcType=INTEGER}
+  </update>
+</mapper>

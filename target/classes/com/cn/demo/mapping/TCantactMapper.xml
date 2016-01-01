@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.demo.dao.TCantactMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.demo.pojo.TCantact" >
+    <id column="con_id" property="conId" jdbcType="INTEGER" />
+    <result column="com_id" property="comId" jdbcType="VARCHAR" />
+    <result column="con_address" property="conAddress" jdbcType="VARCHAR" />
+    <result column="con_code" property="conCode" jdbcType="VARCHAR" />
+    <result column="con_email" property="conEmail" jdbcType="VARCHAR" />
+    <result column="con_page" property="conPage" jdbcType="VARCHAR" />
+    <result column="con_tel" property="conTel" jdbcType="VARCHAR" />
+    <result column="con_tel_man" property="conTelMan" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    con_id, com_id, con_address, con_code, con_email, con_page, con_tel, con_tel_man
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_cantact
+    where con_id = #{conId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByComID" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_cantact
+    where com_id = #{comId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_cantact
+    where con_id = #{conId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cn.demo.pojo.TCantact" >
+    insert into t_cantact (con_id, com_id, con_address, 
+      con_code, con_email, con_page, 
+      con_tel, con_tel_man)
+    values (#{conId,jdbcType=INTEGER}, #{comId,jdbcType=VARCHAR}, #{conAddress,jdbcType=VARCHAR}, 
+      #{conCode,jdbcType=VARCHAR}, #{conEmail,jdbcType=VARCHAR}, #{conPage,jdbcType=VARCHAR}, 
+      #{conTel,jdbcType=VARCHAR}, #{conTelMan,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.demo.pojo.TCantact" >
+    insert into t_cantact
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="conId != null" >
+        con_id,
+      </if>
+      <if test="comId != null" >
+        com_id,
+      </if>
+      <if test="conAddress != null" >
+        con_address,
+      </if>
+      <if test="conCode != null" >
+        con_code,
+      </if>
+      <if test="conEmail != null" >
+        con_email,
+      </if>
+      <if test="conPage != null" >
+        con_page,
+      </if>
+      <if test="conTel != null" >
+        con_tel,
+      </if>
+      <if test="conTelMan != null" >
+        con_tel_man,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="conId != null" >
+        #{conId,jdbcType=INTEGER},
+      </if>
+      <if test="comId != null" >
+        #{comId,jdbcType=VARCHAR},
+      </if>
+      <if test="conAddress != null" >
+        #{conAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="conCode != null" >
+        #{conCode,jdbcType=VARCHAR},
+      </if>
+      <if test="conEmail != null" >
+        #{conEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="conPage != null" >
+        #{conPage,jdbcType=VARCHAR},
+      </if>
+      <if test="conTel != null" >
+        #{conTel,jdbcType=VARCHAR},
+      </if>
+      <if test="conTelMan != null" >
+        #{conTelMan,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.demo.pojo.TCantact" >
+    update t_cantact
+    <set >
+      <if test="comId != null" >
+        com_id = #{comId,jdbcType=VARCHAR},
+      </if>
+      <if test="conAddress != null" >
+        con_address = #{conAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="conCode != null" >
+        con_code = #{conCode,jdbcType=VARCHAR},
+      </if>
+      <if test="conEmail != null" >
+        con_email = #{conEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="conPage != null" >
+        con_page = #{conPage,jdbcType=VARCHAR},
+      </if>
+      <if test="conTel != null" >
+        con_tel = #{conTel,jdbcType=VARCHAR},
+      </if>
+      <if test="conTelMan != null" >
+        con_tel_man = #{conTelMan,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where con_id = #{conId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.demo.pojo.TCantact" >
+    update t_cantact
+    set com_id = #{comId,jdbcType=VARCHAR},
+      con_address = #{conAddress,jdbcType=VARCHAR},
+      con_code = #{conCode,jdbcType=VARCHAR},
+      con_email = #{conEmail,jdbcType=VARCHAR},
+      con_page = #{conPage,jdbcType=VARCHAR},
+      con_tel = #{conTel,jdbcType=VARCHAR},
+      con_tel_man = #{conTelMan,jdbcType=VARCHAR}
+    where con_id = #{conId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.demo.dao.TMenuMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.demo.pojo.TMenu" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="com_id" property="comId" jdbcType="VARCHAR" />
+    <result column="t_link" property="tLink" jdbcType="VARCHAR" />
+    <result column="t_menu_name" property="tMenuName" jdbcType="VARCHAR" />
+    <result column="t_parent_id" property="tParentId" jdbcType="INTEGER" />
+    <result column="t_sort" property="tSort" jdbcType="INTEGER" />
+    <result column="t_type" property="tType" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="MenuMap" type="com.cn.demo.dto.MenuDTO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="com_id" property="comId" jdbcType="VARCHAR" />
+    <result column="t_link" property="tLink" jdbcType="VARCHAR" />
+    <result column="t_menu_name" property="tMenuName" jdbcType="VARCHAR" />
+    <result column="t_parent_id" property="tParentId" jdbcType="INTEGER" />
+    <result column="t_sort" property="tSort" jdbcType="INTEGER" />
+    <result column="t_type" property="tType" jdbcType="VARCHAR" />
+    <result column="pname" property="pname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, com_id, t_link, t_menu_name, t_parent_id, t_sort, t_type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_menu
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_menu
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cn.demo.pojo.TMenu" >
+    insert into t_menu (id, com_id, t_link, 
+      t_menu_name, t_parent_id, t_sort, 
+      t_type)
+    values (#{id,jdbcType=INTEGER}, #{comId,jdbcType=VARCHAR}, #{tLink,jdbcType=VARCHAR}, 
+      #{tMenuName,jdbcType=VARCHAR}, #{tParentId,jdbcType=INTEGER}, #{tSort,jdbcType=INTEGER}, 
+      #{tType,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.demo.pojo.TMenu" >
+    insert into t_menu
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="comId != null" >
+        com_id,
+      </if>
+      <if test="tLink != null" >
+        t_link,
+      </if>
+      <if test="tMenuName != null" >
+        t_menu_name,
+      </if>
+      <if test="tParentId != null" >
+        t_parent_id,
+      </if>
+      <if test="tSort != null" >
+        t_sort,
+      </if>
+      <if test="tType != null" >
+        t_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="comId != null" >
+        #{comId,jdbcType=VARCHAR},
+      </if>
+      <if test="tLink != null" >
+        #{tLink,jdbcType=VARCHAR},
+      </if>
+      <if test="tMenuName != null" >
+        #{tMenuName,jdbcType=VARCHAR},
+      </if>
+      <if test="tParentId != null" >
+        #{tParentId,jdbcType=INTEGER},
+      </if>
+      <if test="tSort != null" >
+        #{tSort,jdbcType=INTEGER},
+      </if>
+      <if test="tType != null" >
+        #{tType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.demo.pojo.TMenu" >
+    update t_menu
+    <set >
+      <if test="comId != null" >
+        com_id = #{comId,jdbcType=VARCHAR},
+      </if>
+      <if test="tLink != null" >
+        t_link = #{tLink,jdbcType=VARCHAR},
+      </if>
+      <if test="tMenuName != null" >
+        t_menu_name = #{tMenuName,jdbcType=VARCHAR},
+      </if>
+      <if test="tParentId != null" >
+        t_parent_id = #{tParentId,jdbcType=INTEGER},
+      </if>
+      <if test="tSort != null" >
+        t_sort = #{tSort,jdbcType=INTEGER},
+      </if>
+      <if test="tType != null" >
+        t_type = #{tType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.demo.pojo.TMenu" >
+    update t_menu
+    set com_id = #{comId,jdbcType=VARCHAR},
+      t_link = #{tLink,jdbcType=VARCHAR},
+      t_menu_name = #{tMenuName,jdbcType=VARCHAR},
+      t_parent_id = #{tParentId,jdbcType=INTEGER},
+      t_sort = #{tSort,jdbcType=INTEGER},
+      t_type = #{tType,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="getList" resultMap="MenuMap"  parameterType="com.cn.demo.pojo.TMenu" >
+   select t. id, t.com_id, t.t_link, t.t_menu_name, t.t_parent_id, t.t_sort, t.t_type,m.t_menu_name as pname from t_menu t
+	LEFT JOIN t_menu m on m.id = t.t_parent_id
+	where t.com_id =  #{comId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="getListByParid" resultMap="MenuMap"  parameterType="com.cn.demo.pojo.TMenu" >
+   select t. id, t.com_id, t.t_link, t.t_menu_name, t.t_parent_id, t.t_sort, t.t_type,m.t_menu_name as pname from t_menu t
+	LEFT JOIN t_menu m on m.id = t.t_parent_id
+	where t.com_id =  #{comId,jdbcType=VARCHAR}
+	and t.t_parent_id =  #{tParentId,jdbcType=INTEGER}
+  </select>
+  
+  
+</mapper>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.demo.dao.TProGroupMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.demo.pojo.TProGroup" >
+    <id column="pro_category_id" property="proCategoryId" jdbcType="INTEGER" />
+    <result column="com_id" property="comId" jdbcType="INTEGER" />
+    <result column="pro_category_status" property="proCategoryStatus" jdbcType="INTEGER" />
+    <result column="pro_category_parent_id" property="proCategoryParentId" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.cn.demo.pojo.TProGroupWithBLOBs" extends="BaseResultMap" >
+    <result column="pro_category_desc" property="proCategoryDesc" jdbcType="LONGVARCHAR" />
+    <result column="pro_category_name" property="proCategoryName" jdbcType="LONGVARCHAR" />
+    <result column="p_pro_category_name" property="pCategoryParName" jdbcType="LONGVARCHAR" />
+    
+  </resultMap>
+  <sql id="Base_Column_List" >
+    pro_category_id, com_id, pro_category_status, pro_category_parent_id
+  </sql>
+  <sql id="Blob_Column_List" >
+    pro_category_desc, pro_category_name
+  </sql>
+  
+  <sql id="Base_Column_List_1" >
+    p.pro_category_id, p.com_id, p.pro_category_status, p.pro_category_parent_id
+  </sql>
+  <sql id="Blob_Column_List_1" >
+    p.pro_category_desc, p.pro_category_name,g.pro_category_name as p_pro_category_name
+  </sql>
+  
+  <select id="getGroupList" resultMap="ResultMapWithBLOBs" parameterType="com.cn.demo.pojo.TProGroupWithBLOBs" >
+    select 
+    <include refid="Base_Column_List_1" />
+    ,
+    <include refid="Blob_Column_List_1" />
+    from t_pro_category p 
+    LEFT JOIN t_pro_category g ON p.pro_category_parent_id = g.pro_category_id
+    where p.com_id = ${comId}
+  	
+  </select>
+  
+  <select id="getListByPid" resultMap="ResultMapWithBLOBs" parameterType="com.cn.demo.pojo.TProGroupWithBLOBs" >
+    select 
+    <include refid="Base_Column_List_1" />
+    ,
+    <include refid="Blob_Column_List_1" />
+    from t_pro_category p 
+    LEFT JOIN t_pro_category g ON p.pro_category_parent_id = g.pro_category_id
+    where p.com_id = ${comId}
+  	and p.pro_category_parent_id = ${proCategoryId}
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_pro_category
+    where pro_category_id = #{proCategoryId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_pro_category
+    where pro_category_id = #{proCategoryId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cn.demo.pojo.TProGroupWithBLOBs" >
+    insert into t_pro_category (pro_category_id, com_id, pro_category_status, 
+      pro_category_parent_id, pro_category_desc, 
+      pro_category_name)
+    values (#{proCategoryId,jdbcType=INTEGER}, #{comId,jdbcType=INTEGER}, #{proCategoryStatus,jdbcType=INTEGER}, 
+      #{proCategoryParentId,jdbcType=INTEGER}, #{proCategoryDesc,jdbcType=LONGVARCHAR}, 
+      #{proCategoryName,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.demo.pojo.TProGroupWithBLOBs" >
+    insert into t_pro_category
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="proCategoryId != null" >
+        pro_category_id,
+      </if>
+      <if test="comId != null" >
+        com_id,
+      </if>
+      <if test="proCategoryStatus != null" >
+        pro_category_status,
+      </if>
+      <if test="proCategoryParentId != null" >
+        pro_category_parent_id,
+      </if>
+      <if test="proCategoryDesc != null" >
+        pro_category_desc,
+      </if>
+      <if test="proCategoryName != null" >
+        pro_category_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="proCategoryId != null" >
+        #{proCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="comId != null" >
+        #{comId,jdbcType=INTEGER},
+      </if>
+      <if test="proCategoryStatus != null" >
+        #{proCategoryStatus,jdbcType=INTEGER},
+      </if>
+      <if test="proCategoryParentId != null" >
+        #{proCategoryParentId,jdbcType=INTEGER},
+      </if>
+      <if test="proCategoryDesc != null" >
+        #{proCategoryDesc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="proCategoryName != null" >
+        #{proCategoryName,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.demo.pojo.TProGroupWithBLOBs" >
+    update t_pro_category
+    <set >
+      <if test="comId != null" >
+        com_id = #{comId,jdbcType=INTEGER},
+      </if>
+      <if test="proCategoryStatus != null" >
+        pro_category_status = #{proCategoryStatus,jdbcType=INTEGER},
+      </if>
+      <if test="proCategoryParentId != null" >
+        pro_category_parent_id = #{proCategoryParentId,jdbcType=INTEGER},
+      </if>
+      <if test="proCategoryDesc != null" >
+        pro_category_desc = #{proCategoryDesc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="proCategoryName != null" >
+        pro_category_name = #{proCategoryName,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where pro_category_id = #{proCategoryId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.cn.demo.pojo.TProGroupWithBLOBs" >
+    update t_pro_category
+    set com_id = #{comId,jdbcType=INTEGER},
+      pro_category_status = #{proCategoryStatus,jdbcType=INTEGER},
+      pro_category_parent_id = #{proCategoryParentId,jdbcType=INTEGER},
+      pro_category_desc = #{proCategoryDesc,jdbcType=LONGVARCHAR},
+      pro_category_name = #{proCategoryName,jdbcType=LONGVARCHAR}
+    where pro_category_id = #{proCategoryId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.demo.pojo.TProGroup" >
+    update t_pro_category
+    set com_id = #{comId,jdbcType=INTEGER},
+      pro_category_status = #{proCategoryStatus,jdbcType=INTEGER},
+      pro_category_parent_id = #{proCategoryParentId,jdbcType=INTEGER}
+    where pro_category_id = #{proCategoryId,jdbcType=INTEGER}
+  </update>
+</mapper>
